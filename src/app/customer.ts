@@ -1,11 +1,13 @@
 import { Product } from "./product";
 
-export interface Customer {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  address: string;
-  mobile: number;
-  products: Product;
+export class Customer {
+
+  id: number=0;
+  firstName: string | undefined;
+  lastName: string | undefined;
+  email: string | undefined;
+  address: string | undefined;
+  mobile: number | undefined;
+  products: Product | undefined;
+
 }

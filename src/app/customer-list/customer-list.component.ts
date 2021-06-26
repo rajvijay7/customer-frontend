@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Customer} from '../customer';
+import { Router } from '@angular/router';
+import { Customer } from '../customer';
 import { CustomerService } from '../customer.service';
 
 @Component({
@@ -8,28 +9,33 @@ import { CustomerService } from '../customer.service';
   styleUrls: ['./customer-list.component.css']
 })
 export class CustomerListComponent implements OnInit {
-
   customers: Customer[] | undefined;
 
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService, private router: Router) { }
 
   ngOnInit(): void {
-
     this.getCustomers();
-    /*this.customers = [
-      {
-        "id":101,
-        "firstName":"Raj",
-        "lastName":"Kumar",
-        "email":"rk@cg.com",
-        "address":"mdu",
-        "mobile":71717171
-      },
-    ]*/
   }
 
+  private getCustomers() {
+    this.customerService.getCustomerList().subscribe(data => { this.customers = data, console.log(data) });
+  }
 
-  private getCustomers(){
-    this.customerService.getCustomerList().subscribe(data => {this.customers = data, console.log(data)});
+  updateCustomer(id: number) {
+    this.router.navigate(['/update-customer', id]);
+  }
+
+  deleteCustomer(id: number) {
+    this.customerService.deleteCustomer(id).subscribe(data => {
+      console.log(data), this.getCustomers();
+    }, error => console.log(console.error))
+  }
+
+  viewCustomerById(id: number) {
+    this.customerService.getCustomerById(id).subscribe(data => {
+      console.log(data), this.getCustomers();
+      this.router.navigate(['/customer-details', id]);
+    },)
+
   }
 }
